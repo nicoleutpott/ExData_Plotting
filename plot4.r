@@ -1,0 +1,21 @@
+setwd("C:\\Users\\NICOLE\\Desktop\\Coursera")
+banco <- read.table("household_power_consumption.txt", sep=";", header = TRUE)
+banco$gDate <- as.Date(banco$Date, "%d/%m/%Y")
+banco <- subset(banco, banco$gDate == "2007-02-01" | banco$gDate == "2007-02-02")
+banco$Global_active_power <- as.numeric(as.character(banco$Global_active_power))
+banco$Sub_metering_1 <- as.numeric(as.character(banco$Sub_metering_1))
+banco$Sub_metering_2 <- as.numeric(as.character(banco$Sub_metering_2))
+banco$Sub_metering_3 <- as.numeric(as.character(banco$Sub_metering_3))
+a <- 1:2880
+png("plot4.png", width = 480, height = 480)
+par(mfrow = c(2,2))
+plot(banco$Global_active_power, type = "l", ylab = "Global Active Power (kilowatts)", xlab = "")
+plot(a, as.numeric(as.character(banco$Voltage)), type = "l", ylab = "Voltage", ylim = c(234, 246), xlab = "datetime")
+plot(banco$Sub_metering_1, type = "l", ylab = "Energy sub metering")
+lines(banco$Sub_metering_2, col = "red")
+lines(banco$Sub_metering_3, col = "blue")
+legend("topright", pch = "-", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), col = c("black", "red", "blue"))
+plot(a, as.numeric(as.character(banco$Global_reactive_power)), type = "l", ylab = "Global Reactive Power", xlab = "datetime")
+dev.off()
+
+
